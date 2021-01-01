@@ -15,13 +15,13 @@ function Home() {
         Todo App
       </Text>
       <Button
-        leftIcon={<AddIcon />}
         colorScheme="blue"
         borderRadius="50%"
-        height="120px"
-        width="120px"
+        height="100px"
+        width="100px"
         onClick={() => setIsCreateModalOpen(true)}
         position="absolute"
+        textTransform="uppercase"
         bottom="2%"
         right="2%"
       >

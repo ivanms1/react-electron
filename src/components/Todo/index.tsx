@@ -17,10 +17,18 @@ function Todo({ todo }: TodoProps) {
   return (
     <Flex justifyContent="space-between">
       <Button
+        display="block"
+        size="sm"
         variant="outline"
         mr={1}
         mb={2}
         onClick={() => setIsModalOpen(true)}
+        textOverflow="ellipsis"
+        paddingLeft="10px"
+        paddingRight="10px"
+        overflow="hidden"
+        whiteSpace="nowrap"
+        width={360}
       >
         {todo.title}
       </Button>
