@@ -11,6 +11,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
+
 import { useAppDispatch, useAppState } from '../AppContext';
 
 const defaultProps = {
@@ -31,7 +32,7 @@ interface TodoModalProps {
 }
 
 function TodoModal({ todo, isOpen, onClose }: TodoModalProps) {
-  const inputRef = useRef();
+  const inputRef = useRef<any>();
 
   const { todos } = useAppState();
   const dispatch = useAppDispatch();

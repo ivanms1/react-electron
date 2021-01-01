@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { AnimatePresence } from 'framer-motion';
 
 import { useAppState } from '../../components/AppContext';
 import Todo from '../../components/Todo';
@@ -27,14 +27,21 @@ function Home() {
       >
         Add Todo
       </Button>
-      <Flex flexDirection="column" minWidth={400} overflowY="auto">
-        {todos.length ? (
-          todos.map((todo) => <Todo key={todo.id} todo={todo} />)
-        ) : (
+      <Flex
+        flexDirection="column"
+        minWidth={400}
+        maxHeight="500px"
+        overflowY="auto"
+      >
+        {!todos.length && (
           <Text align="center" fontStyle="italic">
             Please add todos
           </Text>
         )}
+        <AnimatePresence>
+          {todos.length &&
+            todos.map((todo) => <Todo key={todo.id} todo={todo} />)}
+        </AnimatePresence>
       </Flex>
       <TodoModal
         isOpen={isCreateModalOpen}

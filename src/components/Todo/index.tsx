@@ -1,8 +1,12 @@
-import { Button, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { Button, Flex } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+
 import { useAppDispatch } from '../AppContext';
 
 import TodoModal from '../TodoModal';
+
+const MotionFlex = motion.custom(Flex);
 
 interface TodoProps {
   todo: {
@@ -15,7 +19,14 @@ function Todo({ todo }: TodoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   return (
-    <Flex justifyContent="space-between">
+    <MotionFlex
+      justifyContent="space-between"
+      initial={{ x: -200, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ ease: 'easeOut', duration: 0.5 }}
+      exit={{ x: -400, opacity: 0 }}
+      overflow="visible"
+    >
       <Button
         display="block"
         size="sm"
@@ -51,7 +62,7 @@ function Todo({ todo }: TodoProps) {
         onClose={() => setIsModalOpen(false)}
         todo={todo}
       />
-    </Flex>
+    </MotionFlex>
   );
 }
 
