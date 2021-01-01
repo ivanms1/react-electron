@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import {
   Button,
   Drawer,
@@ -9,7 +10,6 @@ import {
   DrawerOverlay,
   Input,
 } from '@chakra-ui/react';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppState } from '../AppContext';
 
@@ -31,6 +31,8 @@ interface TodoModalProps {
 }
 
 function TodoModal({ todo, isOpen, onClose }: TodoModalProps) {
+  const inputRef = useRef();
+
   const { todos } = useAppState();
   const dispatch = useAppDispatch();
 
@@ -63,7 +65,13 @@ function TodoModal({ todo, isOpen, onClose }: TodoModalProps) {
   });
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xs">
+    <Drawer
+      isOpen={isOpen}
+      placement="right"
+      onClose={onClose}
+      size="xs"
+      initialFocusRef={inputRef}
+    >
       <DrawerOverlay>
         <DrawerContent>
           <DrawerCloseButton />
@@ -71,11 +79,19 @@ function TodoModal({ todo, isOpen, onClose }: TodoModalProps) {
 
           <DrawerBody>
             <form onSubmit={onSubmit} id="todo-form">
-              <Input placeholder="Title" name="title" ref={register} required />
+              <Input
+                placeholder="Title"
+                name="title"
+                ref={(e) => {
+                  register(e);
+                  inputRef.current = e;
+                }}
+                required
+              />
             </form>
           </DrawerBody>
-          <DrawerFooter>
-            <Button type="button" variant="outline" mr={3} onClick={onClose}>
+          <DrawerFooter display="flex" justifyContent="space-between">
+            <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
             <Button type="submit" colorScheme="blue" form="todo-form">

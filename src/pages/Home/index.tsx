@@ -1,5 +1,6 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 import { useAppState } from '../../components/AppContext';
 import Todo from '../../components/Todo';
@@ -9,27 +10,37 @@ function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { todos } = useAppState();
   return (
-    <div>
-      <Text fontSize="5xl" mb={5}>
+    <Box>
+      <Text align="center" fontSize="5xl" mb="50px">
         Todo App
       </Text>
       <Button
+        leftIcon={<AddIcon />}
         colorScheme="blue"
-        mb={10}
+        borderRadius="50%"
+        height="120px"
+        width="120px"
         onClick={() => setIsCreateModalOpen(true)}
+        position="absolute"
+        bottom="2%"
+        right="2%"
       >
-        Add New Todo
+        Add Todo
       </Button>
-      <Flex flexDirection="column">
-        {todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
-        ))}
+      <Flex flexDirection="column" minWidth={400} overflowY="auto">
+        {todos.length ? (
+          todos.map((todo) => <Todo key={todo.id} todo={todo} />)
+        ) : (
+          <Text align="center" fontStyle="italic">
+            Please add todos
+          </Text>
+        )}
       </Flex>
       <TodoModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
       />
-    </div>
+    </Box>
   );
 }
 
