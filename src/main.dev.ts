@@ -18,10 +18,8 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import {
   getAuthenticationURL,
-  getLogOutUrl,
   loadTokens,
   refreshTokens,
-  logout,
 } from './services/auth-service';
 
 export default class AppUpdater {
@@ -84,6 +82,7 @@ const createWindow = async () => {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      contextIsolation: false,
     },
   });
 
@@ -134,7 +133,6 @@ function destroyAuthWin() {
 
 function createAuthWindow() {
   destroyAuthWin();
-
   authWindow = new BrowserWindow({
     width: 1024,
     height: 728,
@@ -145,7 +143,6 @@ function createAuthWindow() {
   });
 
   authWindow.loadURL(getAuthenticationURL(), { userAgent: 'Chrome' });
-
   const {
     session: { webRequest },
   } = authWindow.webContents;
@@ -157,19 +154,6 @@ function createAuthWindow() {
   webRequest.onBeforeRequest(filter, async ({ url }) => {
     await loadTokens(url);
     return createWindow();
-  });
-}
-
-function createLogoutWindow() {
-  const logoutWindow = new BrowserWindow({
-    show: false,
-  });
-
-  logoutWindow.loadURL(getLogOutUrl());
-
-  logoutWindow.on('ready-to-show', async () => {
-    logoutWindow.close();
-    await logout();
   });
 }
 

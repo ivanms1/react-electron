@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 
-import { useAppState } from '../../components/AppContext';
 import Todo from '../../components/Todo';
 import TodoModal from '../../components/TodoModal';
+import LogoutButton from '../../components/LogoutButton';
+
+import { useAppState } from '../../components/AppContext';
 
 function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { todos } = useAppState();
+
   return (
     <Box>
       <Text align="center" fontSize="5xl" mb="50px">
         Todo App
       </Text>
+      <LogoutButton />
       <Button
         colorScheme="blue"
         borderRadius="50%"

@@ -1,3 +1,4 @@
+import { BrowserWindow } from 'electron';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import url from 'url';
@@ -73,6 +74,19 @@ async function refreshTokens() {
   }
 }
 
+function createLogoutWindow() {
+  const logoutWindow = new BrowserWindow({
+    show: false,
+  });
+
+  logoutWindow.loadURL(getLogOutUrl());
+
+  logoutWindow.on('ready-to-show', async () => {
+    logoutWindow.close();
+    await logout();
+  });
+}
+
 async function loadTokens(callbackURL: string) {
   const urlParts = url.parse(callbackURL, true);
   const { query } = urlParts;
@@ -110,6 +124,7 @@ async function loadTokens(callbackURL: string) {
 }
 
 export {
+  createLogoutWindow,
   getAccessToken,
   getAuthenticationURL,
   getLogOutUrl,
